@@ -1,0 +1,987 @@
+[
+    {
+        "id": "d63a098da5f3175a",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "62663e3696cb254e",
+        "type": "modbus-client",
+        "name": "USB0",
+        "clienttype": "simpleser",
+        "bufferCommands": true,
+        "stateLogEnabled": false,
+        "queueLogEnabled": false,
+        "failureLogEnabled": true,
+        "tcpHost": "127.0.0.1",
+        "tcpPort": "502",
+        "tcpType": "DEFAULT",
+        "serialPort": "/dev/ttyUSB0",
+        "serialType": "RTU-BUFFERD",
+        "serialBaudrate": "9600",
+        "serialDatabits": "8",
+        "serialStopbits": "1",
+        "serialParity": "none",
+        "serialConnectionDelay": "100",
+        "serialAsciiResponseStartDelimiter": "0x3A",
+        "unit_id": "1",
+        "commandDelay": "1",
+        "clientTimeout": "1000",
+        "reconnectOnTimeout": true,
+        "reconnectTimeout": "2000",
+        "parallelUnitIdsAllowed": true,
+        "showErrors": false,
+        "showWarnings": true,
+        "showLogs": true
+    },
+    {
+        "id": "251cabc152448d24",
+        "type": "global-config",
+        "name": "global-config",
+        "env": [
+            {
+                "name": "PROJECT",
+                "value": "PJ24-009",
+                "type": "str"
+            },
+            {
+                "name": "ID",
+                "value": "2400901",
+                "type": "str"
+            },
+            {
+                "name": "SERVER_IP",
+                "value": "10.192.13.253",
+                "type": "str"
+            },
+            {
+                "name": "TOPIC_STATUS",
+                "value": "${PROJECT}/${ID}/status",
+                "type": "env"
+            }
+        ]
+    },
+    {
+        "id": "be94d52be39cc23f",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "10.192.13.253",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "5",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "${TOPIC_STATUS}",
+        "birthQos": "2",
+        "birthRetain": "false",
+        "birthPayload": "online",
+        "birthMsg": {},
+        "closeTopic": "${TOPIC_STATUS}",
+        "closeQos": "2",
+        "closeRetain": "false",
+        "closePayload": "offline",
+        "closeMsg": {},
+        "willTopic": "${TOPIC_STATUS}",
+        "willQos": "1",
+        "willRetain": "false",
+        "willPayload": "offline",
+        "willMsg": {
+            "delay": "2"
+        },
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "c6445aedc65354b1",
+        "type": "modbus-read",
+        "z": "d63a098da5f3175a",
+        "name": "READ SENSOR",
+        "topic": "SENSOR",
+        "showStatusActivities": false,
+        "logIOActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "Input",
+        "adr": "1",
+        "quantity": "40",
+        "rate": "1000",
+        "rateUnit": "ms",
+        "delayOnStart": false,
+        "startDelayTime": "7",
+        "server": "62663e3696cb254e",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 180,
+        "y": 640,
+        "wires": [
+            [
+                "a2479ae9745a6cf3",
+                "216ee983e71e43a6"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "a2479ae9745a6cf3",
+        "type": "debug",
+        "z": "d63a098da5f3175a",
+        "name": "debug 1",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 380,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "62193a421c6343cf",
+        "type": "modbus-write",
+        "z": "d63a098da5f3175a",
+        "name": "UPDATE STATUS",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "Coil",
+        "adr": "41",
+        "quantity": "1",
+        "server": "62663e3696cb254e",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 350,
+        "y": 500,
+        "wires": [
+            [
+                "33977c991185b3d1"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "c5c64a862c1c3f46",
+        "type": "inject",
+        "z": "d63a098da5f3175a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 150,
+        "y": 500,
+        "wires": [
+            [
+                "62193a421c6343cf"
+            ]
+        ]
+    },
+    {
+        "id": "33977c991185b3d1",
+        "type": "debug",
+        "z": "d63a098da5f3175a",
+        "name": "debug 2",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "6e1112acbd3c30bb",
+        "type": "modbus-write",
+        "z": "d63a098da5f3175a",
+        "name": "RA 1 ON",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "Coil",
+        "adr": "42",
+        "quantity": "1",
+        "server": "62663e3696cb254e",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 340,
+        "y": 900,
+        "wires": [
+            [
+                "479dce9913a6fd58"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "bd2437fc1cfad953",
+        "type": "inject",
+        "z": "d63a098da5f3175a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 170,
+        "y": 900,
+        "wires": [
+            [
+                "6e1112acbd3c30bb"
+            ]
+        ]
+    },
+    {
+        "id": "3d694c8d41ce79dc",
+        "type": "inject",
+        "z": "d63a098da5f3175a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 170,
+        "y": 960,
+        "wires": [
+            [
+                "eb1b93bd15ad63c4"
+            ]
+        ]
+    },
+    {
+        "id": "479dce9913a6fd58",
+        "type": "debug",
+        "z": "d63a098da5f3175a",
+        "name": "debug 4",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 560,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "eb1b93bd15ad63c4",
+        "type": "modbus-write",
+        "z": "d63a098da5f3175a",
+        "name": "RA 1 OFF",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "Coil",
+        "adr": "44",
+        "quantity": "1",
+        "server": "62663e3696cb254e",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 350,
+        "y": 960,
+        "wires": [
+            [
+                "56b050c8c2586989"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "56b050c8c2586989",
+        "type": "debug",
+        "z": "d63a098da5f3175a",
+        "name": "debug 5",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 560,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "f7aea276ad970d3b",
+        "type": "mqtt out",
+        "z": "d63a098da5f3175a",
+        "name": "UPDATE",
+        "topic": "",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "be94d52be39cc23f",
+        "x": 640,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "b8877704042ea5d0",
+        "type": "inject",
+        "z": "d63a098da5f3175a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 1160,
+        "wires": [
+            [
+                "53d50e0cfbbb0bcc"
+            ]
+        ]
+    },
+    {
+        "id": "53d50e0cfbbb0bcc",
+        "type": "function",
+        "z": "d63a098da5f3175a",
+        "name": "function 1",
+        "func": "msg.topic = `${env.get(\"PROJECT\")}/${env.get(\"ID\")}`\nmsg.payload = `24009_${Math.random().toString(16).slice(3)}`;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 1160,
+        "wires": [
+            [
+                "1112d84af525c3b9",
+                "f7aea276ad970d3b"
+            ]
+        ]
+    },
+    {
+        "id": "1112d84af525c3b9",
+        "type": "debug",
+        "z": "d63a098da5f3175a",
+        "name": "debug 6",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "46cca623b11f6ec5",
+        "type": "inject",
+        "z": "d63a098da5f3175a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 150,
+        "y": 340,
+        "wires": [
+            [
+                "ee459f66c671887d"
+            ]
+        ]
+    },
+    {
+        "id": "b809e6cb4a582603",
+        "type": "http request",
+        "z": "d63a098da5f3175a",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "application/json",
+                "valueValue": ""
+            }
+        ],
+        "x": 650,
+        "y": 340,
+        "wires": [
+            [
+                "50dfe9f774fb442d",
+                "95e08021af6f08b4"
+            ]
+        ]
+    },
+    {
+        "id": "50dfe9f774fb442d",
+        "type": "debug",
+        "z": "d63a098da5f3175a",
+        "name": "debug 7",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "85b03c9319020907",
+        "type": "function",
+        "z": "d63a098da5f3175a",
+        "name": "Main Function",
+        "func": "const playload = msg.payload;\n\n// node.warn(playload);\n\nlet obj = {\n    \"item_code\": global.get('item_code'),\n    \"ng\": 0,\n    \"ok\": 0,\n    \"ng_list\": [],\n    \"ok_list\": [],\n    \"usage\": []\n}\n\n// node.warn(obj);\n\nplayload.forEach(function (data, index) {\n    const num = index + 1\n    const ch_num = \"ch_\" + num;\n    const ch = global.get(ch_num)\n    if (ch !== undefined) {\n        const ch_info = env.get(\"ID\") + num.toString().padStart(3, '0')\n        if (!data) {\n            obj.ng += 1;\n            obj.ng_list.push({\n                ch_info\n            })\n        } else {\n            obj.ok += 1;\n            obj.ok_list.push({\n                ch_info\n            })\n        }\n\n        obj.usage.push({\n            ch_info\n        })\n    }\n});\nconst globalInfo = global.get('data_info')\n\n\n// node.warn(globalInfo == undefined);\nif (globalInfo && obj.ng != globalInfo.ng) {\n    global.set('data_info', obj);\n    msg.payload = obj;\n    return msg;\n}else\nif(globalInfo == undefined){\n     obj = {\n        \"item_code\": global.get('item_code'),\n        \"ng\": -1,\n        \"ok\": 0,\n        \"ng_list\": [],\n        \"ok_list\": [],\n        \"usage\": []\n    }\n    global.set('data_info', obj);\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 680,
+        "wires": [
+            [
+                "c8ac5e8b106bdbc7",
+                "9806529a91c0574b",
+                "7edf284dcb0eb571"
+            ]
+        ]
+    },
+    {
+        "id": "7a8422e6a5102717",
+        "type": "function",
+        "z": "d63a098da5f3175a",
+        "name": "URL",
+        "func": "msg.url = `http://${env.get('SERVER_IP')}:80/api/1.0.1/aging-ccd-pvm/${env.get('ID')}/register`;\n// msg.url = `http://${env.get('SERVER_IP')}:80/api/1.0.1/aging-ccd-pvm/${env.get('ID')}/rack-no`;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 340,
+        "wires": [
+            [
+                "b809e6cb4a582603",
+                "c9beae6f18360f1a"
+            ]
+        ]
+    },
+    {
+        "id": "95e08021af6f08b4",
+        "type": "function",
+        "z": "d63a098da5f3175a",
+        "name": "SET INIT",
+        "func": "const resp = msg.payload;\ntry {\n\n    if (resp.status === \"success\") {\n        // Clear global\n        global.keys().forEach(function (key) {\n            global.set(key, undefined);\n        });\n        // SET ITEM NO\n        const item_code = resp.data.item_code;\n        global.set(\"item_code\", item_code);\n\n        let _data = JSON.parse(resp.data.data);\n        // node.warn(_data)\n        _data.forEach(function (element) {\n\n            let result = element.chanel.slice(-3)\n            let ch_num = parseInt(result);\n            global.set(\"ch_\" + ch_num.toString(), result)\n\n\n        });\n\n        // node.warn(global.keys())\n        msg.payload = _data;\n        return msg;\n    }\n\n\n} catch (e) {\n    node.error(e);\n    return { \"msg\": msg };\n}\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 400,
+        "wires": [
+            [
+                "9f67dc97f9665840",
+                "8dec28f305ac66d5"
+            ]
+        ]
+    },
+    {
+        "id": "9f67dc97f9665840",
+        "type": "debug",
+        "z": "d63a098da5f3175a",
+        "name": "debug 8",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "c8ac5e8b106bdbc7",
+        "type": "debug",
+        "z": "d63a098da5f3175a",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "9806529a91c0574b",
+        "type": "function",
+        "z": "d63a098da5f3175a",
+        "name": "IF NG",
+        "func": "const playload = msg.payload;\n\nif (playload.ng == undefined) {\n\n} else {\n    if (playload.ng > 0) {\n        msg.payload = true;\n        // msg.topic = `${env.get(\"PROJECT\")}/${env.get(\"ID\")}`\n        return msg;\n    }\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 680,
+        "wires": [
+            [
+                "2f60945149ba50f0",
+                "eda4512234542817"
+            ]
+        ]
+    },
+    {
+        "id": "ee459f66c671887d",
+        "type": "function",
+        "z": "d63a098da5f3175a",
+        "name": "Is Init",
+        "func": "const item = global.get(\"item_code\")\n\nif(item === undefined){\n    // node.warn('false')\n    // return true;\n    msg.payload = true;\n    return msg;\n}else{\n    msg.payload = false;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 340,
+        "wires": [
+            [
+                "7a8422e6a5102717"
+            ]
+        ]
+    },
+    {
+        "id": "216ee983e71e43a6",
+        "type": "function",
+        "z": "d63a098da5f3175a",
+        "name": "Is global",
+        "func": "const item = global.get(\"item_code\")\n\n// node.warn({'item':item})\nif (item === undefined) {\n   \n    // global.set('data_info', obj);\n\n} else {\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 680,
+        "wires": [
+            [
+                "85b03c9319020907",
+                "bd5768553868b0f1"
+            ]
+        ]
+    },
+    {
+        "id": "43407fe62d448acd",
+        "type": "function",
+        "z": "d63a098da5f3175a",
+        "name": "Clear Global",
+        "func": "global.keys().forEach(function (key) {\n    global.set(key, undefined);\n});\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "433720db2f2d5c87",
+        "type": "inject",
+        "z": "d63a098da5f3175a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 420,
+        "wires": [
+            [
+                "43407fe62d448acd"
+            ]
+        ]
+    },
+    {
+        "id": "2f60945149ba50f0",
+        "type": "debug",
+        "z": "d63a098da5f3175a",
+        "name": "debug 10",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "7edf284dcb0eb571",
+        "type": "function",
+        "z": "d63a098da5f3175a",
+        "name": "IF NG UP Date To Server",
+        "func": "const playload = msg.payload;\n\nif (playload.ng == undefined) {\n\n} else {\n    if (playload.ng > -1) {\n        const item_code = global.get(\"item_code\");\n        if(item_code != undefined){\n            msg.topic = `${env.get(\"PROJECT\")}/${env.get(\"ID\")}/update`;\n            return msg;\n        }\n    }\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 760,
+        "wires": [
+            [
+                "be82051b1404e397"
+            ]
+        ]
+    },
+    {
+        "id": "fcb9ee6080ae3788",
+        "type": "link in",
+        "z": "d63a098da5f3175a",
+        "name": "link relay on",
+        "links": [
+            "eda4512234542817"
+        ],
+        "x": 215,
+        "y": 840,
+        "wires": [
+            [
+                "a716178c9d829916",
+                "6e1112acbd3c30bb"
+            ]
+        ]
+    },
+    {
+        "id": "eda4512234542817",
+        "type": "link out",
+        "z": "d63a098da5f3175a",
+        "name": "link relay on",
+        "mode": "link",
+        "links": [
+            "fcb9ee6080ae3788"
+        ],
+        "x": 1085,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "e40a41f7202b4a78",
+        "type": "link in",
+        "z": "d63a098da5f3175a",
+        "name": "link in mqtt",
+        "links": [
+            "e2866d5e14b50603",
+            "be82051b1404e397"
+        ],
+        "x": 465,
+        "y": 1080,
+        "wires": [
+            [
+                "f7aea276ad970d3b",
+                "81d24202653026be"
+            ]
+        ]
+    },
+    {
+        "id": "e2866d5e14b50603",
+        "type": "link out",
+        "z": "d63a098da5f3175a",
+        "name": "link out mqtt",
+        "mode": "link",
+        "links": [
+            "e40a41f7202b4a78"
+        ],
+        "x": 1235,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "8dec28f305ac66d5",
+        "type": "function",
+        "z": "d63a098da5f3175a",
+        "name": "Init data",
+        "func": "const item_code = global.get('item_code');\nmsg.topic = `${env.get(\"PROJECT\")}/${env.get(\"ID\")}/${item_code}`;\n// msg.payload = `24009_${Math.random().toString(16).slice(3)}`;\nconst payload = \"start\"\n\nmsg.payload = payload;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1100,
+        "y": 460,
+        "wires": [
+            [
+                "e2866d5e14b50603"
+            ]
+        ]
+    },
+    {
+        "id": "04fb08451e81666e",
+        "type": "inject",
+        "z": "d63a098da5f3175a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 320,
+        "y": 280,
+        "wires": [
+            [
+                "7a8422e6a5102717"
+            ]
+        ]
+    },
+    {
+        "id": "81d24202653026be",
+        "type": "debug",
+        "z": "d63a098da5f3175a",
+        "name": "debug 12",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "a716178c9d829916",
+        "type": "debug",
+        "z": "d63a098da5f3175a",
+        "name": "debug 13",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 340,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "c9beae6f18360f1a",
+        "type": "debug",
+        "z": "d63a098da5f3175a",
+        "name": "debug 14",
+        "active": false,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 670,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "be82051b1404e397",
+        "type": "link out",
+        "z": "d63a098da5f3175a",
+        "name": "link out 1",
+        "mode": "link",
+        "links": [
+            "e40a41f7202b4a78"
+        ],
+        "x": 1085,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "bd5768553868b0f1",
+        "type": "debug",
+        "z": "d63a098da5f3175a",
+        "name": "debug 15",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 560,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "c158ffec800a4bce",
+        "type": "catch",
+        "z": "d63a098da5f3175a",
+        "name": "",
+        "scope": [
+            "95e08021af6f08b4"
+        ],
+        "uncaught": false,
+        "x": 910,
+        "y": 500,
+        "wires": [
+            [
+                "7348bb62849a6e20"
+            ]
+        ]
+    },
+    {
+        "id": "7348bb62849a6e20",
+        "type": "debug",
+        "z": "d63a098da5f3175a",
+        "name": "debug 16",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 540,
+        "wires": []
+    }
+]

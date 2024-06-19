@@ -1,0 +1,864 @@
+[
+    {
+        "id": "9d80bd0b0473eb29",
+        "type": "tab",
+        "label": "V2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "2361653eb9201b2d",
+        "type": "debug",
+        "z": "9d80bd0b0473eb29",
+        "name": "debug 17",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 300,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "523d36d01ac9783d",
+        "type": "inject",
+        "z": "9d80bd0b0473eb29",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 170,
+        "y": 700,
+        "wires": [
+            [
+                "04086b7e325af8e0"
+            ]
+        ]
+    },
+    {
+        "id": "62dccce081d01327",
+        "type": "inject",
+        "z": "9d80bd0b0473eb29",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 170,
+        "y": 760,
+        "wires": [
+            [
+                "5dda029798b766d1"
+            ]
+        ]
+    },
+    {
+        "id": "d42db8633ff5c7eb",
+        "type": "mqtt out",
+        "z": "9d80bd0b0473eb29",
+        "name": "UPDATE",
+        "topic": "",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "be94d52be39cc23f",
+        "x": 640,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "8f8022e5972265be",
+        "type": "inject",
+        "z": "9d80bd0b0473eb29",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 960,
+        "wires": [
+            [
+                "25f9f332b2d61206"
+            ]
+        ]
+    },
+    {
+        "id": "25f9f332b2d61206",
+        "type": "function",
+        "z": "9d80bd0b0473eb29",
+        "name": "function 2",
+        "func": "msg.topic = `${env.get(\"PROJECT\")}/${env.get(\"ID\")}`\nmsg.payload = `24009_${Math.random().toString(16).slice(3)}`;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 960,
+        "wires": [
+            [
+                "f08aea91763ad9f3",
+                "d42db8633ff5c7eb"
+            ]
+        ]
+    },
+    {
+        "id": "f08aea91763ad9f3",
+        "type": "debug",
+        "z": "9d80bd0b0473eb29",
+        "name": "debug 21",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "3caadde0dae18df6",
+        "type": "inject",
+        "z": "9d80bd0b0473eb29",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 150,
+        "y": 140,
+        "wires": [
+            [
+                "bd5bad4e6af63bea"
+            ]
+        ]
+    },
+    {
+        "id": "25b563c3a0bfa2da",
+        "type": "http request",
+        "z": "9d80bd0b0473eb29",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "application/json",
+                "valueValue": ""
+            }
+        ],
+        "x": 650,
+        "y": 140,
+        "wires": [
+            [
+                "e72a09ad42c649fe",
+                "fd54feb0f1f31f26"
+            ]
+        ]
+    },
+    {
+        "id": "e72a09ad42c649fe",
+        "type": "debug",
+        "z": "9d80bd0b0473eb29",
+        "name": "debug 22",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "7a5d4c8353a36111",
+        "type": "function",
+        "z": "9d80bd0b0473eb29",
+        "name": "Main Function",
+        "func": "const playload = msg.payload;\n\n// node.warn(playload);\n\nlet obj = {\n    \"item_code\": global.get('item_code'),\n    \"ng\": 0,\n    \"ok\": 0,\n    \"ng_list\": [],\n    \"ok_list\": [],\n    \"usage\": []\n}\n\n// node.warn(obj);\n\nplayload.forEach(function (data, index) {\n    const num = index + 1\n    const ch_num = \"ch_\" + num;\n    const ch = global.get(ch_num)\n    if (ch !== undefined) {\n        const ch_info = env.get(\"ID\") + num.toString().padStart(3, '0')\n        if (data != 1) {\n            obj.ng += 1;\n            obj.ng_list.push({\n                ch_info\n            })\n        } else {\n            obj.ok += 1;\n            obj.ok_list.push({\n                ch_info\n            })\n        }\n\n        obj.usage.push({\n            ch_info\n        })\n    }\n});\nconst globalInfo = global.get('data_info')\n\n\n// node.warn(globalInfo == undefined);\nif (globalInfo && obj.ng != globalInfo.ng) {\n    global.set('data_info', obj);\n    msg.payload = obj;\n    return msg;\n}else\nif(globalInfo == undefined){\n     obj = {\n        \"item_code\": global.get('item_code'),\n        \"ng\": -1,\n        \"ok\": 0,\n        \"ng_list\": [],\n        \"ok_list\": [],\n        \"usage\": []\n    }\n    global.set('data_info', obj);\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 480,
+        "wires": [
+            [
+                "587137ef106466c1",
+                "0a9d6c02cb3dab3f",
+                "1f8ac0d27840028a"
+            ]
+        ]
+    },
+    {
+        "id": "8cf2393067a5b61b",
+        "type": "function",
+        "z": "9d80bd0b0473eb29",
+        "name": "URL",
+        "func": "msg.url = `http://${env.get('SERVER_IP')}:80/api/1.0.1/aging-ccd-pvm/${env.get('ID')}/register`;\n// msg.url = `http://${env.get('SERVER_IP')}:80/api/1.0.1/aging-ccd-pvm/${env.get('ID')}/rack-no`;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 140,
+        "wires": [
+            [
+                "25b563c3a0bfa2da",
+                "aa8e869dea52d6fc"
+            ]
+        ]
+    },
+    {
+        "id": "fd54feb0f1f31f26",
+        "type": "function",
+        "z": "9d80bd0b0473eb29",
+        "name": "SET INIT",
+        "func": "const resp = msg.payload;\ntry {\n\n    if (resp.status === \"success\") {\n        // Clear global\n        global.keys().forEach(function (key) {\n            global.set(key, undefined);\n        });\n        // SET ITEM NO\n        const item_code = resp.data.item_code;\n        global.set(\"item_code\", item_code);\n\n        let _data = JSON.parse(resp.data.data);\n        // node.warn(_data)\n        _data.forEach(function (element) {\n\n            let result = element.chanel.slice(-3)\n            let ch_num = parseInt(result);\n            global.set(\"ch_\" + ch_num.toString(), result)\n\n\n        });\n\n        // node.warn(global.keys())\n        msg.payload = _data;\n        return msg;\n    }\n\n\n} catch (e) {\n    node.error(e);\n    return { \"msg\": msg };\n}\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 200,
+        "wires": [
+            [
+                "21c8bc7c0a2b5e4c",
+                "0c070b7d42a997ae"
+            ]
+        ]
+    },
+    {
+        "id": "21c8bc7c0a2b5e4c",
+        "type": "debug",
+        "z": "9d80bd0b0473eb29",
+        "name": "debug 23",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "587137ef106466c1",
+        "type": "debug",
+        "z": "9d80bd0b0473eb29",
+        "name": "debug 24",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "0a9d6c02cb3dab3f",
+        "type": "function",
+        "z": "9d80bd0b0473eb29",
+        "name": "IF NG",
+        "func": "const playload = msg.payload;\n\nif (playload.ng == undefined) {\n\n} else {\n    if (playload.ng > 0) {\n        msg.payload = true;\n        // msg.topic = `${env.get(\"PROJECT\")}/${env.get(\"ID\")}`\n        return msg;\n    }\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 480,
+        "wires": [
+            [
+                "317d887c257841d6",
+                "fd71e67254eddf2e"
+            ]
+        ]
+    },
+    {
+        "id": "bd5bad4e6af63bea",
+        "type": "function",
+        "z": "9d80bd0b0473eb29",
+        "name": "Is Init",
+        "func": "const item = global.get(\"item_code\")\n\nif(item === undefined){\n    // node.warn('false')\n    // return true;\n    msg.payload = true;\n    return msg;\n}else{\n    msg.payload = false;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 140,
+        "wires": [
+            [
+                "8cf2393067a5b61b"
+            ]
+        ]
+    },
+    {
+        "id": "a6e9a2ca233dcab4",
+        "type": "function",
+        "z": "9d80bd0b0473eb29",
+        "name": "Is global",
+        "func": "const item = global.get(\"item_code\")\n\n// node.warn({'item':item})\nif (item === undefined) {\n   \n    // global.set('data_info', obj);\n\n} else {\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 520,
+        "wires": [
+            [
+                "7a5d4c8353a36111",
+                "e57bef3e14c01192"
+            ]
+        ]
+    },
+    {
+        "id": "39cc340c158f3959",
+        "type": "function",
+        "z": "9d80bd0b0473eb29",
+        "name": "Clear Global",
+        "func": "global.keys().forEach(function (key) {\n    global.set(key, undefined);\n});\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "680e5e994c09582d",
+        "type": "inject",
+        "z": "9d80bd0b0473eb29",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 220,
+        "wires": [
+            [
+                "39cc340c158f3959"
+            ]
+        ]
+    },
+    {
+        "id": "317d887c257841d6",
+        "type": "debug",
+        "z": "9d80bd0b0473eb29",
+        "name": "debug 25",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "1f8ac0d27840028a",
+        "type": "function",
+        "z": "9d80bd0b0473eb29",
+        "name": "IF NG UP Date To Server",
+        "func": "const playload = msg.payload;\n\nif (playload.ng == undefined) {\n\n} else {\n    if (playload.ng > -1) {\n        const item_code = global.get(\"item_code\");\n        if(item_code != undefined){\n            msg.topic = `${env.get(\"PROJECT\")}/${env.get(\"ID\")}/update`;\n            return msg;\n        }\n    }\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 560,
+        "wires": [
+            [
+                "5408ae533bf88581"
+            ]
+        ]
+    },
+    {
+        "id": "98e03c3ad5f3f4fd",
+        "type": "link in",
+        "z": "9d80bd0b0473eb29",
+        "name": "link relay on",
+        "links": [
+            "fd71e67254eddf2e"
+        ],
+        "x": 215,
+        "y": 640,
+        "wires": [
+            [
+                "2f2830a50f80493e",
+                "04086b7e325af8e0"
+            ]
+        ]
+    },
+    {
+        "id": "fd71e67254eddf2e",
+        "type": "link out",
+        "z": "9d80bd0b0473eb29",
+        "name": "link relay on",
+        "mode": "link",
+        "links": [
+            "98e03c3ad5f3f4fd"
+        ],
+        "x": 1085,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "43594bfca8c19334",
+        "type": "link in",
+        "z": "9d80bd0b0473eb29",
+        "name": "link in mqtt",
+        "links": [
+            "74afbe67ffbd226b",
+            "5408ae533bf88581"
+        ],
+        "x": 465,
+        "y": 880,
+        "wires": [
+            [
+                "d42db8633ff5c7eb",
+                "0d0c60a26b64269b"
+            ]
+        ]
+    },
+    {
+        "id": "74afbe67ffbd226b",
+        "type": "link out",
+        "z": "9d80bd0b0473eb29",
+        "name": "link out mqtt",
+        "mode": "link",
+        "links": [
+            "43594bfca8c19334"
+        ],
+        "x": 1235,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "0c070b7d42a997ae",
+        "type": "function",
+        "z": "9d80bd0b0473eb29",
+        "name": "Init data",
+        "func": "const item_code = global.get('item_code');\nmsg.topic = `${env.get(\"PROJECT\")}/${env.get(\"ID\")}/${item_code}`;\n// msg.payload = `24009_${Math.random().toString(16).slice(3)}`;\nconst payload = \"start\"\n\nmsg.payload = payload;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1100,
+        "y": 260,
+        "wires": [
+            [
+                "74afbe67ffbd226b"
+            ]
+        ]
+    },
+    {
+        "id": "9c8509a710c061b0",
+        "type": "inject",
+        "z": "9d80bd0b0473eb29",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 320,
+        "y": 80,
+        "wires": [
+            [
+                "8cf2393067a5b61b"
+            ]
+        ]
+    },
+    {
+        "id": "0d0c60a26b64269b",
+        "type": "debug",
+        "z": "9d80bd0b0473eb29",
+        "name": "debug 26",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "2f2830a50f80493e",
+        "type": "debug",
+        "z": "9d80bd0b0473eb29",
+        "name": "debug 27",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 340,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "aa8e869dea52d6fc",
+        "type": "debug",
+        "z": "9d80bd0b0473eb29",
+        "name": "debug 28",
+        "active": false,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 670,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "5408ae533bf88581",
+        "type": "link out",
+        "z": "9d80bd0b0473eb29",
+        "name": "link out 2",
+        "mode": "link",
+        "links": [
+            "43594bfca8c19334"
+        ],
+        "x": 1085,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "e57bef3e14c01192",
+        "type": "debug",
+        "z": "9d80bd0b0473eb29",
+        "name": "debug 29",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 560,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "cbe067d782a8e576",
+        "type": "catch",
+        "z": "9d80bd0b0473eb29",
+        "name": "",
+        "scope": [
+            "fd54feb0f1f31f26"
+        ],
+        "uncaught": false,
+        "x": 910,
+        "y": 300,
+        "wires": [
+            [
+                "6850ee2f7c91b95e"
+            ]
+        ]
+    },
+    {
+        "id": "6850ee2f7c91b95e",
+        "type": "debug",
+        "z": "9d80bd0b0473eb29",
+        "name": "debug 30",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "18c90b6bbb712dcb",
+        "type": "serial in",
+        "z": "9d80bd0b0473eb29",
+        "name": "",
+        "serial": "0d18c2a53012e910",
+        "x": 120,
+        "y": 380,
+        "wires": [
+            [
+                "2361653eb9201b2d",
+                "bdfd62e6b6608307"
+            ]
+        ]
+    },
+    {
+        "id": "6d69b16e91a56785",
+        "type": "serial out",
+        "z": "9d80bd0b0473eb29",
+        "name": "",
+        "serial": "0d18c2a53012e910",
+        "x": 560,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "04086b7e325af8e0",
+        "type": "function",
+        "z": "9d80bd0b0473eb29",
+        "name": "ON",
+        "func": "msg.payload = \"ON\\n\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 700,
+        "wires": [
+            [
+                "6d69b16e91a56785"
+            ]
+        ]
+    },
+    {
+        "id": "5dda029798b766d1",
+        "type": "function",
+        "z": "9d80bd0b0473eb29",
+        "name": "OFF",
+        "func": "msg.payload = \"OFF\\n\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 760,
+        "wires": [
+            [
+                "6d69b16e91a56785"
+            ]
+        ]
+    },
+    {
+        "id": "bdfd62e6b6608307",
+        "type": "function",
+        "z": "9d80bd0b0473eb29",
+        "name": "Convert To Array",
+        "func": "const str = msg.payload.replace('{','').replace('}','');\n\nconst arr = str.split(',').map(Number);\nmsg.payload = arr;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 420,
+        "wires": [
+            [
+                "a6e9a2ca233dcab4",
+                "ab249d0c7c70ad8b"
+            ]
+        ]
+    },
+    {
+        "id": "ab249d0c7c70ad8b",
+        "type": "debug",
+        "z": "9d80bd0b0473eb29",
+        "name": "debug 31",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 510,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "be94d52be39cc23f",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "10.192.13.253",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "5",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "${TOPIC_STATUS}",
+        "birthQos": "2",
+        "birthRetain": "false",
+        "birthPayload": "online",
+        "birthMsg": {},
+        "closeTopic": "${TOPIC_STATUS}",
+        "closeQos": "2",
+        "closeRetain": "false",
+        "closePayload": "offline",
+        "closeMsg": {},
+        "willTopic": "${TOPIC_STATUS}",
+        "willQos": "1",
+        "willRetain": "false",
+        "willPayload": "offline",
+        "willMsg": {
+            "delay": "2"
+        },
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "0d18c2a53012e910",
+        "type": "serial-port",
+        "name": "ttyUSB0",
+        "serialport": "/dev/ttyUSB0",
+        "serialbaud": "9600",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    }
+]

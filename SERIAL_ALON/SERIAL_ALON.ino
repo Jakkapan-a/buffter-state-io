@@ -9,10 +9,9 @@
  * @license MIT
  */
 
-#include <ModbusRTUSlave.h>
+// #include <ModbusRTUSlave.h>
 // #include <SoftwareSerial.h>
 // bufferInput class boolean xxx state
-
 class bufferInput {
 public:
   bufferInput(int size = 20)
@@ -42,15 +41,15 @@ public:
   }
 
 private:
-  int currentSize;
   int maxSize;
+  int currentSize;
   boolean *state;
 };
 
 // ----------------- Outputs ----------------- //
 #define BUZZER_PIN A14
 // ----------------- Inputs ----------------- //
-#define BUFFER_SIZE 30
+#define BUFFER_SIZE 25
 #define INPUT_PIN1 A15
 #define INPUT_PIN2 49
 #define INPUT_PIN3 48
@@ -75,11 +74,11 @@ private:
 #define INPUT_PIN22 29
 #define INPUT_PIN23 28
 #define INPUT_PIN24 27
-#define INPUT_PIN25 26
+#define INPUT_PIN25 A11
 #define INPUT_PIN26 25
 #define INPUT_PIN27 24
 #define INPUT_PIN28 23
-#define INPUT_PIN29 22
+#define INPUT_PIN29 A12
 #define INPUT_PIN30 2
 #define INPUT_PIN31 3
 #define INPUT_PIN32 4
@@ -137,15 +136,34 @@ bufferInput bufferInput40(BUFFER_SIZE);
 
 bufferInput bufferInputs[] = { bufferInput1, bufferInput2, bufferInput3, bufferInput4, bufferInput5, bufferInput6, bufferInput7, bufferInput8, bufferInput9, bufferInput10, bufferInput11, bufferInput12, bufferInput13, bufferInput14, bufferInput15, bufferInput16, bufferInput17, bufferInput18, bufferInput19, bufferInput20, bufferInput21, bufferInput22, bufferInput23, bufferInput24, bufferInput25, bufferInput26, bufferInput27, bufferInput28, bufferInput29, bufferInput30, bufferInput31, bufferInput32, bufferInput33, bufferInput34, bufferInput35, bufferInput36, bufferInput37, bufferInput38, bufferInput39, bufferInput40 };
 
-const uint8_t slaveID = 1;
 
-ModbusRTUSlave modBusRTUSlave(Serial);
+// const uint8_t slaveID = 1;
+
+// ModbusRTUSlave modBusRTUSlave(Serial);
 
 bool coils[50] = { false };
 boolean discreteInputs[50] = { false };
+boolean endReceived = false;
+String receivedData = "";
+uint32_t timeStamp = 0;
+void serialEvent()
+{
+  while (Serial.available())
+  {
+    char inChar = (char)Serial.read();
+    if (inChar == '\n')
+    {
+      endReceived = true;
+    }
+    else
+    {
+      receivedData += inChar;
+      timeStamp = millis();
+    }
+  }
+}
 
 int TOTAL_INPUTS = 40;
-
 boolean OFF = true;
 boolean ON = false;
 void setup() {
@@ -162,24 +180,35 @@ void setup() {
   digitalWrite(BUZZER_PIN, OFF);
 
   // Modbus
-  modBusRTUSlave.begin(slaveID, 9600);
-  modBusRTUSlave.configureCoils(coils, 50);
-  modBusRTUSlave.configureDiscreteInputs(discreteInputs, 50);
+  // modBusRTUSlave.begin(slaveID, 9600);
+  // modBusRTUSlave.configureCoils(coils, 50);
+  // modBusRTUSlave.configureDiscreteInputs(discreteInputs, 50);
 }
 uint32_t lastTime100 = 0;
 uint32_t lastTime200 = 0;
-bool oldState[40] = { false };
+// bool oldState[40] = { false };
 void loop() {
-  modBusRTUSlave.poll();
-
+  // modBusRTUSlave.poll();
   uint32_t currentTime = millis();
-  if (currentTime - lastTime100 > 70) {
+  if (currentTime - lastTime100 > 40) {
     readInputs();
     lastTime100 = currentTime;
   } else if (currentTime < lastTime100) {
     lastTime100 = currentTime;
   }
 
+  if (endReceived)
+  {
+    if(receivedData == "ON"){
+      digitalWrite(BUZZER_PIN, ON);
+    }else if(receivedData == "OFF"){
+      digitalWrite(BUZZER_PIN, OFF);
+    }
+    receivedData = "";
+    endReceived = false;
+  }else if(currentTime - timeStamp > 500 && receivedData.length() > 0){
+    endReceived = true;
+  }
   // ----------------- Print Inputs ----------------- //
   if (currentTime - lastTime200 > 500) {
     // manageInputs();
@@ -194,10 +223,22 @@ void loop() {
       coils[44] = false;
       coils[45] = true;  // For response to Modbus
     }
+    
+    // Update to serial
+    Serial.print("{");
+    for (int i = 0; i < TOTAL_INPUTS; i++) {
+      Serial.print(bufferInputs[i].isState());
+      if (i < TOTAL_INPUTS - 1) {
+        Serial.print(",");
+      }
+    }
+    Serial.println("}");
+    
     lastTime200 = currentTime;
   } else if (currentTime < lastTime200) {
     lastTime200 = currentTime;
   }
+
 }
 void readInputs() {
   for (int i = 0; i < TOTAL_INPUTS; i++) {
